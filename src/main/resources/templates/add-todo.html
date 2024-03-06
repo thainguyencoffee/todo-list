@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <title>Add todo</title>
+</head>
+<body>
+<div th:replace="layouts/header :: header"></div>
+
+<div class="container my-5">
+    <div class="col-md-5">
+
+        <form th:action="@{/addtodo}" th:object="${todo}" method="post">
+            <div class="form-row">
+                <div class="mb-3">
+                    <label for="name" class="form-label">ToDo Name</label>
+                    <input th:field="*{name}" type="text" class="form-control" id="name" th:errorClass="is-invalid">
+                    <span th:if="${#fields.hasErrors('name')}" th:errors="${todo.name}" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label for="estimate-time" class="form-label">Estimate time</label>
+                    <input th:field="*{estimate_time}" type="number" class="form-control" id="estimate-time" >
+                    <span th:if="${#fields.hasErrors('estimate_time')}" th:errors="*{estimate_time}" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label for="score" class="form-label">Score</label>
+                    <input th:field="*{score}" type="number" class="form-control" id="score" >
+                    <!--bean validation-->
+                    <span th:if="${#fields.hasErrors('score')}" th:errors="*{score}" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Add ToDo</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div th:replace="layouts/footer :: footer"></div>
+</body>
+</html>

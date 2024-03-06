@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--Font awesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+    <!--boostrap 5-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <title>Todo list</title>
+</head>
+<body>
+<div th:replace="layouts/header :: header"></div>
+<!--Using bootstrap to show a list todo-->
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+
+
+            <div >
+                <form th:action="@{/optimization(time=${time})}" method="get">
+                    <div class="form-row">
+                        <div class="mb-3">
+                            <label for="time_estimate" class="form-label">Bạn co bao nhieu thoi gian (nhap so)</label>
+                            <input required th:value="${time}" name="time" type="number" class="form-control" id="time_estimate" placeholder="10" >
+                        </div>
+                        <button class="btn btn-danger">Optimize</button>
+                    </div>
+                </form>
+                <h4>Optimize time <span class="badge bg-success" th:text="${opt_value}"></span></h4>
+
+                <h2 class="my-5">Your TODOs</h2>
+                <table class="table table-striped table-responsive-md">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Ten TODO</th>
+                        <th>Muc do quan trong</th>
+                        <th>Thoi gian uoc tinh</th>
+                        <th>Done</th>
+                        <th>Edit done</th>
+                        <th>Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="todo : ${todos}">
+                        <td th:text="${todo.id}"></td>
+                        <td th:text="${todo.name}"></td>
+                        <td th:text="${todo.score}"></td>
+                        <td th:text="${todo.estimate_time}"></td>
+                        <td th:switch="${todo.done}">
+                            <span th:case="true" class="text-success">Done</span>
+                            <span th:case="false" class="text-danger">Not yet</span>
+                        </td>
+                        <td th:switch="${todo.done}">
+                            <a th:case="true" th:href="@{/markednotdone/{id}(id=${todo.id})}" class="btn btn-secondary">marked not
+                                done</a>
+                            <a th:case="false" th:href="@{/marked/{id}(id=${todo.id})}" class="btn btn-success">marked done</a>
+                        </td>
+                        <td>
+                            <a th:href="@{/delete/{id}(id=${todo.id})}">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="my-5">
+                <a href="/addtodo" class="btn btn-dark"><i class="fas fa-plus-square"></i></a>
+            </p>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>
+
+</body>
+</html>
